@@ -1,1 +1,4 @@
-<p>Server Component</p>
+<p>Server Component
+  <app-warning-alert *ngIf="!success"></app-warning-alert>
+  <app-success-alert *ngIf="success"></app-success-alert>
+</p>

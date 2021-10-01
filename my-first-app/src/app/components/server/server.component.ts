@@ -7,7 +7,10 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ServerComponent implements OnInit {
 
-  constructor() { }
+  success: boolean = Math.random() >= 0.5;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
