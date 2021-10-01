@@ -14,7 +14,9 @@
 <!--<p>{{serverName}}</p>-->
 <hr>
 <button class="btn btn-primary" [disabled]="!allowNewServer" (click)="onCreateServer()">Add server</button>
-<p class="alert alert-info">{{serverCreationStatus}}</p>
+<p *ngIf="serverCreated">Server was created. Server name is {{serverName}}</p>
+
+<!--<p class="alert alert-info">{{serverCreationStatus}}</p>-->
 <p>{{ allowNewServer }}</p>
 <p [innerText]="allowNewServer"></p>
 <p>{{ allowNewServer ? 'New server is allowed' : 'New server is NOT allowed' }}</p>
