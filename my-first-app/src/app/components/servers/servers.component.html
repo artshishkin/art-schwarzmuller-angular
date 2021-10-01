@@ -1,3 +1,11 @@
 <button class="btn btn-primary" [disabled]="!allowNewServer">Add sever</button>
+<p>{{ allowNewServer }}</p>
+<p [innerText]="allowNewServer"></p>
+<p>{{ allowNewServer ? 'New server is allowed' : 'New server is NOT allowed' }}</p>
+<p>{{ 'New server is' + (allowNewServer ? '' : ' NOT') + 'allowed' }}</p>
+<p>New server is {{allowNewServer ? '' : 'NOT '}}allowed</p>
+<p [innerText]="allowNewServer"></p>
+<p [innerText]="allowNewServer?'New server is allowed':'New server is NOT allowed'"></p>
+<p [innerText]="'New server is ' + (allowNewServer ? '' : 'NOT ') +'allowed'"></p>
 <app-server></app-server>
 <app-server></app-server>
