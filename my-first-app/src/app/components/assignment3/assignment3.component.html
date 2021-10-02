@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-2">
+    <button class="btn btn-primary" (click)="onToggleDisplaying()">Display Details</button>
+  </div>
+  <div class="col-md-10">
+    <p *ngIf="showPassword">Secret Password is <b>Tuna</b></p>
+  </div>
+</div>
+
+<p *ngFor="let clickDate of clicks; index as i"
+   [ngClass]="{'blue-back': i>=(5-1)}"
+   [ngStyle]="{backgroundColor: getBackColor(i)}"
+>
+  {{clickDate | date: 'medium'}}
+</p>
