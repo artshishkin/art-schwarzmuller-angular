@@ -7,7 +7,10 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ShoppingListComponent implements OnInit {
 
-  constructor() { }
+  ingredients = [];
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
