@@ -7,4 +7,10 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
   title = 'course-project';
+
+  pageToShow: string = 'recipes';
+
+  onNavigationChanged(page: string) {
+    this.pageToShow = page;
+  }
 }
