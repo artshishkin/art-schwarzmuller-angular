@@ -7,7 +7,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  @Output('navChanged') pageToShow = new EventEmitter<string>();
+  @Output() featureSelected = new EventEmitter<string>();
 
   constructor() {
   }
@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onNavClick(componentToShow: string) {
-    this.pageToShow.emit(componentToShow);
+  onSelect(feature: string) {
+    this.featureSelected.emit(feature);
   }
 }
