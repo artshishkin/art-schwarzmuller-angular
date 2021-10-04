@@ -1,0 +1,13 @@
+<app-game-control (gameEvent)="onGameEvent($event)"></app-game-control>
+<hr>
+<div *ngFor="let score of gameScores">
+  <div *ngIf="score % 2 === 1, then insertOddComponent, else insertEvenComponent"></div>
+  <ng-template #insertOddComponent>
+    <app-odd [content]="score"></app-odd>
+  </ng-template>
+  <ng-template #insertEvenComponent>
+    <app-even [content]="score"></app-even>
+  </ng-template>
+</div>
+
+

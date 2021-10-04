@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="col-xs-3">
+    <button [disabled]="gameStarted" class="btn btn-success" (click)="onStartTheGame()">Start the Game</button>
+  </div>
+  <div class="col-xs-3">
+    <button [disabled]="!gameStarted" class="btn btn-danger" (click)="onStopTheGame()">Stop the Game</button>
+  </div>
+</div>
+
