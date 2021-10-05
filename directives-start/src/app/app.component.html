@@ -43,6 +43,14 @@
       </ul>
       <p appBasicHighlight>Style me with basic directive</p>
       <p [appBetterHighlight]="'brown'" defaultColor="cyan">Style me with better (with renderer) directive</p>
+
+      <hr>
+      <div [ngSwitch]="value" (click)="changeSwitchValue()" [ngStyle]="{cursor:'pointer'}">
+        <p *ngSwitchCase="1">One</p>
+        <p *ngSwitchCase="5">Five</p>
+        <p *ngSwitchCase="10">Ten</p>
+        <p *ngSwitchDefault>Default</p>
+      </div>
     </div>
   </div>
 </div>

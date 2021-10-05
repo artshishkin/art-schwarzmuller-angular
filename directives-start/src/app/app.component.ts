@@ -10,4 +10,13 @@ export class AppComponent {
   oddNumbers = [1, 3, 5];
   evenNumbers = [2, 4];
   onlyOdd = false;
+
+  value = 10;
+
+  switchValues = [1, 5, 10, 1_000];
+
+  changeSwitchValue() {
+    const index = Math.floor(Math.random() * 4);
+    this.value = this.switchValues[index];
+  }
 }
