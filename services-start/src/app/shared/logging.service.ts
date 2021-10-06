@@ -1,10 +1,10 @@
+import {Injectable} from "@angular/core";
+
+@Injectable()
 export class LoggingService {
 
-  private serviceId: number;
-
   constructor() {
-    this.serviceId = Math.floor(Math.random() * 1_000_000);
-    console.log(`Created LoggingService with id: ${this.serviceId}`);
+    console.log(`Created LoggingService with id: ${(Math.floor(Math.random() * 1_000_000))}`);
   }
 
   logStatusChange(status: string) {
