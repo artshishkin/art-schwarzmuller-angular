@@ -8,6 +8,14 @@ import {CounterService} from "./services/counter.service";
 })
 export class AppComponent {
 
+  get activeToInactiveCount(): number {
+    return this.counterService.activeToInactiveCounter;
+  }
+
+  get inactiveToActiveCount(): number {
+    return this.counterService.inactiveToActiveCounter;
+  }
+
   get totalTransitions(): number {
     return this.counterService.totalTransitions;
   }

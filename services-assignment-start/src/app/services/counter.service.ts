@@ -15,4 +15,12 @@ export class CounterService {
     console.log(`CounterService totalTransitions getter is invoked: ${this.inactiveToActiveCounter} + ${this.activeToInactiveCounter}`);
     return this.activeToInactiveCounter + this.inactiveToActiveCounter;
   }
+
+  incrementInactiveToActive(): number {
+    return this.inactiveToActiveCounter++;
+  }
+
+  incrementActiveToInactive(): number {
+    return this.activeToInactiveCounter++;
+  }
 }
