@@ -1,3 +1,7 @@
+import {LoggingService} from "./logging.service";
+import {Injectable} from "@angular/core";
+
+@Injectable()
 export class AccountsService {
 
   accounts = [
@@ -15,16 +19,18 @@ export class AccountsService {
     }
   ];
 
-  constructor() {
+  constructor(private loggingService: LoggingService) {
     const id = Math.floor(Math.random() * 1_000_000);
     console.log(`Accounts Service created with id ${id}`)
   }
 
   addAccount(name: string, status: string) {
     this.accounts.push({name: name, status: status});
+    this.loggingService.logStatusChange(status);
   }
 
   updateAccount(id: number, status: string) {
     this.accounts[id].status = status;
+    this.loggingService.logStatusChange(status);
   }
 }
