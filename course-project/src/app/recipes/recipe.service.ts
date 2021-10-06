@@ -1,3 +1,4 @@
+import {EventEmitter} from "@angular/core";
 import {Recipe} from "./recipe.model";
 
 export class RecipeService {
@@ -8,7 +9,7 @@ export class RecipeService {
     new Recipe("The Test Recipe 3", "This is just a test 3", 'fake')
   ];
 
-  private selectedRecipe: Recipe;
+  recipeSelected = new EventEmitter<Recipe>();
 
   constructor() {
   }
@@ -18,10 +19,7 @@ export class RecipeService {
   }
 
   selectRecipe(recipe: Recipe) {
-    this.selectedRecipe = recipe;
+    this.recipeSelected.emit(recipe);
   }
 
-  getSelectedRecipe(): Recipe {
-    return this.selectedRecipe;
-  }
 }
