@@ -8,10 +8,20 @@ export class RecipeService {
     new Recipe("The Test Recipe 3", "This is just a test 3", 'fake')
   ];
 
+  private selectedRecipe: Recipe;
+
   constructor() {
   }
 
   getRecipes(): Recipe[] {
     return this.recipes.slice();
+  }
+
+  selectRecipe(recipe: Recipe) {
+    this.selectedRecipe = recipe;
+  }
+
+  getSelectedRecipe(): Recipe {
+    return this.selectedRecipe;
   }
 }
