@@ -1,7 +1,7 @@
 import {LoggingService} from "./logging.service";
 import {EventEmitter, Injectable} from "@angular/core";
 
-@Injectable()
+@Injectable({providedIn: "root"})
 export class AccountsService {
 
   statusUpdated = new EventEmitter<string>();
