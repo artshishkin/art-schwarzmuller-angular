@@ -17,11 +17,11 @@ export class ServersComponent implements OnInit {
 
   ngOnInit() {
     this.servers = this.serversService.getServers();
-    console.log("ServersComponent ngOnInit");
+    // console.log("ServersComponent ngOnInit");
   }
 
   onReload() {
-    console.log("ServersComponent onReload");
-    this.router.navigate(['servers'], {relativeTo: this.activatedRoute});
+    // console.log("ServersComponent onReload");
+    // this.router.navigate(['servers'], {relativeTo: this.activatedRoute});
   }
 }
