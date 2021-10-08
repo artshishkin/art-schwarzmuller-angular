@@ -15,6 +15,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {AuthGuard} from "./auth-guard.service";
 import {FakeAuthService} from "./fake-auth.service";
 import {ErrorPageComponent} from './error-page/error-page.component';
+import {ServerResolver} from "./servers/server/server-resolver.service";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import {ErrorPageComponent} from './error-page/error-page.component';
     FormsModule,
     AppRoutingModule,
   ],
-  providers: [ServersService, AuthGuard, FakeAuthService],
+  providers: [ServersService, AuthGuard, FakeAuthService, ServerResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule {
