@@ -20,7 +20,7 @@ export class RecipeDetailComponent implements OnInit, OnChanges {
 
     this.route.params.subscribe((params:Params)=>{
       const recipeId:number = +params['id'];
-      this.recipe = this.recipeService.getRecipes()[recipeId];
+      this.recipe = this.recipeService.getRecipe(recipeId);
     })
   }
 
