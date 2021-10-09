@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {Recipe} from "../recipe.model";
 
 @Component({
   selector: 'app-recipe-edit',
@@ -10,6 +11,7 @@ export class RecipeEditComponent implements OnInit {
 
   editMode = false;
   id: number | null = null;
+  recipe: Recipe;
 
   constructor(private route: ActivatedRoute) {
   }
@@ -19,7 +21,8 @@ export class RecipeEditComponent implements OnInit {
       this.editMode = paramMap.has('id');
       this.id = this.editMode ? +paramMap.get('id') : null;
     });
-    this.editMode = this.route.snapshot.paramMap.has('id');
+
+    this.route.data.subscribe(data => this.recipe = data['recipe']);
   }
 
 }

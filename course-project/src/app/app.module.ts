@@ -16,6 +16,7 @@ import {CommonModule} from "@angular/common";
 import {AppRoutingModule} from './app-routing.module';
 import {RecipeNotSelectedComponent} from './recipes/recipe-not-selected/recipe-not-selected.component';
 import {RecipeEditComponent} from './recipes/recipe-edit/recipe-edit.component';
+import {RecipeService} from "./recipes/recipe.service";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {RecipeEditComponent} from './recipes/recipe-edit/recipe-edit.component';
     CommonModule,
     AppRoutingModule
   ],
-  providers: [ShoppingListService],
+  providers: [ShoppingListService, RecipeService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -1,7 +1,7 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Recipe} from "../recipe.model";
 import {RecipeService} from "../recipe.service";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-recipe-detail',
@@ -18,10 +18,7 @@ export class RecipeDetailComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
-    this.route.params.subscribe((params:Params)=>{
-      const recipeId:number = +params['id'];
-      this.recipe = this.recipeService.getRecipe(recipeId);
-    })
+    this.route.data.subscribe(data => this.recipe = data['recipe']);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
