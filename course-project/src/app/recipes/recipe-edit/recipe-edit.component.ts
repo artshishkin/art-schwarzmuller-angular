@@ -18,7 +18,6 @@ export class RecipeEditComponent implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       this.editMode = paramMap.has('id');
       this.id = this.editMode ? +paramMap.get('id') : null;
-      console.log(`Edit mode: ${this.editMode}. ID: ${this.id}`);
     });
     this.editMode = this.route.snapshot.paramMap.has('id');
   }
