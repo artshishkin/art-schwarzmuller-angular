@@ -5,6 +5,7 @@
         <div
           id="user-data"
           ngModelGroup="userData"
+          #userDataRef="ngModelGroup"
         >
           <div class="form-group">
             <label for="username">Username</label>
@@ -24,6 +25,7 @@
                    email>
             <span class="help-block" *ngIf="email.invalid && email.touched">Please enter a valid value!</span>
           </div>
+          <p *ngIf="userDataRef.invalid && userDataRef.touched" class="alert alert-warning">User Data is invalid!</p>
         </div>
         <div class="form-group">
           <label for="secret">Secret Questions</label>
