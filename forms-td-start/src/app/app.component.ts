@@ -58,5 +58,7 @@ export class AppComponent {
     this.user.gender = userFormData.gender;
     console.log(this.user);
     this.submitted = true;
+
+    this.form.reset();
   }
 }
