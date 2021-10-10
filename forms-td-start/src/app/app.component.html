@@ -25,7 +25,8 @@
         <div class="form-group">
           <label for="secret">Secret Questions</label>
           <select id="secret" class="form-control"
-                  ngModel name="secret">
+                  [ngModel]="defaultQuestion"
+                  name="secret">
             <option value="pet">Your first Pet?</option>
             <option value="teacher">Your first teacher?</option>
           </select>
