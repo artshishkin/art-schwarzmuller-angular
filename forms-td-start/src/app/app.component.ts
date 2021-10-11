@@ -59,6 +59,10 @@ export class AppComponent {
     console.log(this.user);
     this.submitted = true;
 
-    this.form.reset();
+    // this.form.reset();
+    this.form.reset({
+      secret: this.defaultQuestion,
+      gender: this.genders[0]
+    });
   }
 }
