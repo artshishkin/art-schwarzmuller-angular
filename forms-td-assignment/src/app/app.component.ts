@@ -14,6 +14,8 @@ export class AppComponent {
 
   onSubmit(formContent: any) {
     console.log(formContent);
-    this.subscriptionForm.reset();
+    this.subscriptionForm.reset({
+      subscription: this.subscriptions[1]
+    });
   }
 }
