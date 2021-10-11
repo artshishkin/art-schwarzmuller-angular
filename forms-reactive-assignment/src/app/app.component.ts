@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -17,12 +18,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+
+    this.projectForm.get('projectName').statusChanges
+      .subscribe(status => console.log(status));
   }
 
   private createForm() {
 
     this.projectForm = this.formBuilder.group({
-      projectName: this.formBuilder.control(null, [Validators.required, this.nameNotTest.bind(this)]),
+      projectName: this.formBuilder.control(null, Validators.required, this.asyncNameNotTest.bind(this)),
       email: this.formBuilder.control(null, [Validators.required, Validators.email]),
       projectStatus: this.formBuilder.control(this.projectStatuses[0])
     });
@@ -37,4 +41,15 @@ export class AppComponent implements OnInit {
       {'name-not-test': true} :
       null;
   }
+
+  asyncNameNotTest(control: FormControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
+    return new Promise<ValidationErrors>((resolve => {
+      setTimeout(() => {
+        resolve(
+          (control.value === 'Test') ? {'name-not-test': true} : null
+        );
+      }, 2200);
+    }));
+  }
+
 }
