@@ -34,6 +34,9 @@
               <span *ngIf="signUpForm.get('userData.email').errors['email']">
                 Please enter a valid email
               </span>
+              <span *ngIf="signUpForm.get('userData.email').errors['email-forbidden']">
+                This Email is forbidden
+              </span>
             </span>
           </div>
         </div>
