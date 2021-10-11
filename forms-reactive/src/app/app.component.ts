@@ -30,10 +30,20 @@ export class AppComponent implements OnInit {
       .statusChanges
       .subscribe(status => console.log(status));
 
+    this.signUpForm.patchValue({
+      userData: {
+        username: 'Kate'
+      }
+    });
+
+    this.signUpForm.get('userData.email').setValue('tessst@test.com');
   }
 
   onSubmit() {
     console.log(this.signUpForm);
+    this.signUpForm.reset({
+      gender: 'female'
+    })
   }
 
   onAddHobby() {
