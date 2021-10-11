@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   private createForm() {
 
     this.projectForm = this.formBuilder.group({
-      projectName: this.formBuilder.control(null, Validators.required),
+      projectName: this.formBuilder.control(null, [Validators.required, this.nameNotTest.bind(this)]),
       email: this.formBuilder.control(null, [Validators.required, Validators.email]),
       projectStatus: this.formBuilder.control(this.projectStatuses[0])
     });
@@ -30,5 +30,11 @@ export class AppComponent implements OnInit {
 
   onSubmit() {
     console.log(this.projectForm);
+  }
+
+  nameNotTest(control: FormControl): ValidationErrors | null {
+    return (control.value === 'Test') ?
+      {'name-not-test': true} :
+      null;
   }
 }
