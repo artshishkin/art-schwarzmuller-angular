@@ -9,6 +9,7 @@
             id="name"
             class="form-control"
             name="name"
+            required
             ngModel>
         </div>
         <div class="col-sm-2 form-group">
@@ -18,12 +19,19 @@
             id="amount"
             class="form-control"
             name="amount"
+            min="1"
+            required
             ngModel>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-success" type="submit">Add</button>
+          <button
+            class="btn btn-success"
+            type="submit"
+            [disabled]="f.invalid">
+            Add
+          </button>
           <button class="btn btn-danger" type="button">Delete</button>
           <button class="btn btn-primary" type="button">Clear</button>
         </div>
