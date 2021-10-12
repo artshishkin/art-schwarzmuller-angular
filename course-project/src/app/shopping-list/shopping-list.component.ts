@@ -29,4 +29,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.subs.forEach(sub => sub.unsubscribe());
   }
 
+  onEditItem(i: number) {
+    this.shoppingListService.startEditingItem(i);
+  }
 }
