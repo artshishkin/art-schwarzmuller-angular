@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Recipe} from "../recipe.model";
-import {AbstractControl, FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RecipeService} from "../recipe.service";
 
 @Component({
@@ -37,9 +37,9 @@ export class RecipeEditComponent implements OnInit {
 
   private initForm() {
     this.recipeForm = this.formBuilder.group({
-      name: this.formBuilder.control(this.recipe.name),
-      imagePath: this.formBuilder.control(this.recipe.imagePath),
-      description: this.formBuilder.control(this.recipe.description),
+      name: this.formBuilder.control(this.recipe.name, Validators.required),
+      imagePath: this.formBuilder.control(this.recipe.imagePath, Validators.required),
+      description: this.formBuilder.control(this.recipe.description, Validators.required),
       ingredients: this.initIngredientsArray()
     });
   }
@@ -48,8 +48,11 @@ export class RecipeEditComponent implements OnInit {
     let ingredientsArray = this.formBuilder.array([]);
     for (const ingredient of this.recipe.ingredients) {
       const ingredientGroup = this.formBuilder.group({
-        name: this.formBuilder.control(ingredient.name),
-        amount: this.formBuilder.control(ingredient.amount)
+        name: this.formBuilder.control(ingredient.name, Validators.required),
+        amount: this.formBuilder.control(ingredient.amount, [
+          Validators.required,
+          Validators.min(1)
+        ])
       });
       ingredientsArray.push(ingredientGroup);
     }
@@ -67,8 +70,11 @@ export class RecipeEditComponent implements OnInit {
   onAddIngredient() {
     (this.recipeForm.get('ingredients') as FormArray)
       .push(this.formBuilder.group({
-        name: this.formBuilder.control(null),
-        amount: this.formBuilder.control(null)
+        name: this.formBuilder.control(null, Validators.required),
+        amount: this.formBuilder.control(null, [
+          Validators.required,
+          Validators.pattern(/^[1-9]+[0-9]*$/)
+        ])
       }));
   }
 }
