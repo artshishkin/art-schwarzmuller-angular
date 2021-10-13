@@ -2,6 +2,9 @@
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
       <input type="text" [(ngModel)]="filteredStatus">
+      <label>Order:
+        <input type="checkbox" (change)="orderToggle($event)">
+      </label>
       <hr>
       <button class="btn btn-primary" (click)="onAddNewServer()">Add new Server</button>
       <hr>
@@ -10,7 +13,7 @@
       <ul class="list-group">
         <li
           class="list-group-item"
-          *ngFor="let server of servers | filter: filteredStatus:'status'"
+          *ngFor="let server of servers | filter: filteredStatus:'status' | sort:'name': order"
           [ngClass]="getStatusClasses(server)">
           <span
             class="badge">

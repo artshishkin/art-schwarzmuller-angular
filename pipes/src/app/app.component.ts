@@ -11,6 +11,8 @@ export class AppComponent {
     setTimeout(() => resolve('stable'), 2000);
   }));
 
+  order = 'DESC';
+
   servers = [
     {
       instanceType: 'medium',
@@ -56,5 +58,10 @@ export class AppComponent {
         started: new Date(2021, 10, 13)
       }
     );
+  }
+
+  orderToggle(ascending: Event) {
+    this.order = (ascending.srcElement as HTMLInputElement).checked ? 'ASC' : 'DESC';
+    console.log(this.order);
   }
 }
