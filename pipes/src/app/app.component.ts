@@ -6,34 +6,40 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  appStatus = new Promise((resolve => {
+    setTimeout(() => resolve('stable'), 2000);
+  }));
+
   servers = [
     {
       instanceType: 'medium',
       name: 'Production Server',
       status: 'stable',
-      started: new Date( 2021,10,13)
+      started: new Date(2021, 10, 13)
     },
     {
       instanceType: 'large',
       name: 'User Database',
       status: 'stable',
-      started: new Date( 2021,10,13)
+      started: new Date(2021, 10, 13)
     },
     {
       instanceType: 'small',
       name: 'Development Server',
       status: 'offline',
-      started: new Date( 2021,10,13)
+      started: new Date(2021, 10, 13)
     },
     {
       instanceType: 'small',
       name: 'Testing Environment Server',
       status: 'stable',
-      started: new Date( 2021,10,13)
+      started: new Date(2021, 10, 13)
     }
   ];
-  filteredStatus: string ='';
-  getStatusClasses(server: {instanceType: string, name: string, status: string, started: Date}) {
+  filteredStatus: string = '';
+
+  getStatusClasses(server: { instanceType: string, name: string, status: string, started: Date }) {
     return {
       'list-group-item-success': server.status === 'stable',
       'list-group-item-warning': server.status === 'offline',
@@ -47,7 +53,7 @@ export class AppComponent {
         instanceType: 'small',
         name: 'New Server',
         status: 'stable',
-        started: new Date( 2021,10,13)
+        started: new Date(2021, 10, 13)
       }
     );
   }

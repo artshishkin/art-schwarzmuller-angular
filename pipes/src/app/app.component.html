@@ -5,6 +5,8 @@
       <hr>
       <button class="btn btn-primary" (click)="onAddNewServer()">Add new Server</button>
       <hr>
+      <h2>App Status: {{appStatus | async }}</h2>
+      <br>
       <ul class="list-group">
         <li
           class="list-group-item"
