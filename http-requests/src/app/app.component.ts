@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fetchPosts();
+    this.postService.error.subscribe(err => this.error = err);
   }
 
   ngOnDestroy(): void {
@@ -54,6 +55,10 @@ export class AppComponent implements OnInit, OnDestroy {
   onFetchPosts() {
     // Send Http request
     this.fetchPosts();
+  }
+
+  onErrorTest() {
+    this.postService.errorHandlingUsingSubjectTests();
   }
 
   onClearPosts() {

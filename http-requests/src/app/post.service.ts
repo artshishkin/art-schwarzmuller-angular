@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../environments/environment";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {Post} from "./post.model";
 import {map} from "rxjs/operators";
 
@@ -11,6 +11,9 @@ import {map} from "rxjs/operators";
 export class PostService {
 
   firebaseUrl = `${environment.fireBaseUrl}/posts.json`;
+
+  private errorSubject = new Subject<string>();
+  error = this.errorSubject.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -27,12 +30,21 @@ export class PostService {
       }));
   }
 
+  errorHandlingUsingSubjectTests(): void {
+    this.http.get<Map<string, Post>>(`${environment.fireBaseUrl}/absent.json`)
+      .subscribe(posts => console.log(posts),
+        error => {
+          this.errorSubject.next(error.message);
+          console.log(error);
+        });
+  }
+
   createAndStorePost(title: string, content: string): Observable<{ name: string }> {
     const postData: Post = {title: title, content: content};
     return this.http.post<{ name: string }>(this.firebaseUrl, postData);
   }
 
-  deleteAllPosts():Observable<any> {
+  deleteAllPosts(): Observable<any> {
     return this.http.delete(this.firebaseUrl);
   }
 

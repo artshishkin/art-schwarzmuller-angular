@@ -52,5 +52,19 @@ Angular - The Complete Guide (2021 Edition) - Tutorial from Maximilian Schwarzm√
 ```
 -  Fetch post - got `401 (Unauthorized)`
 
+#####  264. Using Subjects for Error Handling
 
-
+```json
+{
+  "rules": {
+    "absent":{
+      ".read": false,
+      ".write":true
+    },
+    "posts":{
+    	".read": "now < 1636754400000",  // 2021-11-13
+    	".write": "now < 1636754400000",  // 2021-11-13
+    }
+  }
+}
+```
