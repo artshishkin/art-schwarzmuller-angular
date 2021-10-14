@@ -32,4 +32,8 @@ export class PostService {
     return this.http.post<{ name: string }>(this.firebaseUrl, postData);
   }
 
+  deleteAllPosts():Observable<any> {
+    return this.http.delete(this.firebaseUrl);
+  }
+
 }
