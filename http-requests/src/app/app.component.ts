@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from "../environments/environment";
 import {map} from "rxjs/operators";
 
+import {Post} from "./post.model";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,7 +22,7 @@ export class AppComponent implements OnInit {
     this.fetchPosts();
   }
 
-  onCreatePost(postData: { title: string; content: string }) {
+  onCreatePost(postData: Post) {
     // Send Http request
     console.log(postData);
     this.http.post(this.firebaseUrl, postData).subscribe(
@@ -41,8 +43,8 @@ export class AppComponent implements OnInit {
   private fetchPosts() {
     console.log(this.loadedPosts);
     this.http.get(this.firebaseUrl)
-      .pipe(map(responseData => {
-        const postArray = [];
+      .pipe(map((responseData: { [key: string]: Post }) => {
+        const postArray: Post[] = [];
         for (const key in responseData) {
           if (responseData.hasOwnProperty(key))
             postArray.push({...responseData[key], id: key});
