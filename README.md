@@ -16,3 +16,15 @@ Angular - The Complete Guide (2021 Edition) - Tutorial from Maximilian Schwarzm√
 -  update styles in `angulr.json`
 -  rerun `ng serve`
 
+
+####  Section 18: Making Http Requests
+
+#####  253. Backend (Firebase) Setup
+
+1.  Create new Firebase project
+    -  Console
+    -  `https://console.firebase.google.com`
+    -  Add project `ng-complete-guide`
+2.  Realtime Database
+    -  Create database
+    -  Start in test mode
