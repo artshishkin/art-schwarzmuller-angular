@@ -29,9 +29,18 @@ export class AppComponent implements OnInit {
 
   onFetchPosts() {
     // Send Http request
+    this.fetchPosts();
   }
 
   onClearPosts() {
     // Send Http request
+  }
+
+  private fetchPosts(){
+    console.log(this.loadedPosts);
+    this.http.get(this.firebaseUrl)
+      .subscribe(posts => {
+        console.log(posts);
+      });
   }
 }
