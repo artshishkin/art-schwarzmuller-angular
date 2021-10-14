@@ -1,8 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {Post} from "./post.model";
 import {PostService} from "./post.service";
 import {Subscription} from "rxjs";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,9 @@ import {Subscription} from "rxjs";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
+
+  @ViewChild('postForm') postForm: NgForm;
+
   loadedPosts: Post[] = [];
 
   isFetching = false;
@@ -20,9 +24,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const subscription = this.postService.loadedPostsObservable
-      .subscribe(posts => this.loadedPosts = posts);
-    this.subs.push(subscription);
     this.fetchPosts();
   }
 
@@ -32,7 +33,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onCreatePost(postData: Post) {
     // Send Http request
-    this.postService.createAndStorePost(postData.title, postData.content);
+    const subscription = this.postService
+      .createAndStorePost(postData.title, postData.content)
+      .subscribe(
+        result => {
+          this.postForm.reset();
+          this.fetchPosts();
+        },
+        error => console.log(error)
+      );
+    this.subs.push(subscription);
   }
 
   onFetchPosts() {
@@ -45,7 +55,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private fetchPosts() {
-    // this.isFetching = true;
-    this.postService.fetchPosts();
+    this.isFetching = true;
+    const subscription = this.postService.fetchPosts()
+      .subscribe(posts => {
+          this.isFetching = false;
+          this.loadedPosts = posts;
+        },
+        error => {
+          this.isFetching = false;
+          console.log(error);
+        });
+    this.subs.push(subscription);
   }
 }
