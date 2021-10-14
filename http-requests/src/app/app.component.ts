@@ -18,6 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isFetching = false;
 
+  error = null;
+
   subs: Subscription[] = [];
 
   constructor(private postService: PostService) {
@@ -33,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onCreatePost(postData: Post) {
     // Send Http request
+    this.error = null;
     const subscription = this.postService
       .createAndStorePost(postData.title, postData.content)
       .subscribe(
@@ -40,7 +43,10 @@ export class AppComponent implements OnInit, OnDestroy {
           this.postForm.reset();
           this.fetchPosts();
         },
-        error => console.log(error)
+        error => {
+          this.error = error.message;
+          console.log(error);
+        }
       );
     this.subs.push(subscription);
   }
@@ -52,18 +58,23 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onClearPosts() {
     // Send Http request
+    this.error = null;
     const subscription = this.postService.deleteAllPosts()
       .subscribe(
         () => {
           this.loadedPosts = [];
           alert('All posts were cleared');
         },
-        error => console.log(error)
+        error => {
+          this.error = error.message;
+          console.log(error);
+        }
       );
     this.subs.push(subscription);
   }
 
   private fetchPosts() {
+    this.error = null;
     this.isFetching = true;
     const subscription = this.postService.fetchPosts()
       .subscribe(posts => {
@@ -72,6 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
         },
         error => {
           this.isFetching = false;
+          this.error = error.message;
           console.log(error);
         });
     this.subs.push(subscription);
