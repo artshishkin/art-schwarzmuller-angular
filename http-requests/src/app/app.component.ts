@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {environment} from "../environments/environment";
-import {map} from "rxjs/operators";
 
 import {Post} from "./post.model";
+import {PostService} from "./post.service";
 
 @Component({
   selector: 'app-root',
@@ -12,21 +10,19 @@ import {Post} from "./post.model";
 })
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
-  firebaseUrl: string;
 
   isFetching = false;
 
-  constructor(private http: HttpClient) {
+  constructor(private postService: PostService) {
   }
 
   ngOnInit() {
-    this.firebaseUrl = `${environment.fireBaseUrl}/posts.json`;
     this.fetchPosts();
   }
 
   onCreatePost(postData: Post) {
     // Send Http request
-    this.http.post<{ name: string }>(this.firebaseUrl, postData).subscribe(
+    this.postService.createPost(postData).subscribe(
       result => console.log(result),
       error => console.log(error)
     ); //no need to manage subscription - Angular creates it and will manage it
@@ -45,15 +41,7 @@ export class AppComponent implements OnInit {
 
     this.isFetching = true;
 
-    this.http.get<Map<string, Post>>(this.firebaseUrl)
-      .pipe(map((responseData) => {
-        const postArray: Post[] = [];
-        for (const key in responseData) {
-          if (responseData.hasOwnProperty(key))
-            postArray.push({...responseData[key], id: key});
-        }
-        return postArray;
-      }))
+    this.postService.fetchPosts()
       .subscribe(posts => {
           this.loadedPosts = posts;
           this.isFetching = false;
