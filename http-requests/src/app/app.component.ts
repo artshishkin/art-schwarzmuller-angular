@@ -41,8 +41,7 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts() {
-    console.log(this.loadedPosts);
-    this.http.get<{ [key: string]: Post }>(this.firebaseUrl)
+    this.http.get<Map<string, Post>>(this.firebaseUrl)
       .pipe(map((responseData) => {
         const postArray: Post[] = [];
         for (const key in responseData) {
