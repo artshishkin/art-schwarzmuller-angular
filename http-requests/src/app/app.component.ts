@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   onCreatePost(postData: Post) {
     // Send Http request
     console.log(postData);
-    this.http.post(this.firebaseUrl, postData).subscribe(
+    this.http.post<{ name: string }>(this.firebaseUrl, postData).subscribe(
       result => console.log(result),
       error => console.log(error)
     ); //no need to manage subscription - Angular creates it and will manage it
@@ -42,8 +42,8 @@ export class AppComponent implements OnInit {
 
   private fetchPosts() {
     console.log(this.loadedPosts);
-    this.http.get(this.firebaseUrl)
-      .pipe(map((responseData: { [key: string]: Post }) => {
+    this.http.get<{ [key: string]: Post }>(this.firebaseUrl)
+      .pipe(map((responseData) => {
         const postArray: Post[] = [];
         for (const key in responseData) {
           if (responseData.hasOwnProperty(key))
