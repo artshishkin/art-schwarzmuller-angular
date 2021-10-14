@@ -14,6 +14,8 @@ export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   firebaseUrl: string;
 
+  isFetching = false;
+
   constructor(private http: HttpClient) {
   }
 
@@ -24,7 +26,6 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: Post) {
     // Send Http request
-    console.log(postData);
     this.http.post<{ name: string }>(this.firebaseUrl, postData).subscribe(
       result => console.log(result),
       error => console.log(error)
@@ -41,6 +42,9 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts() {
+
+    this.isFetching = true;
+
     this.http.get<Map<string, Post>>(this.firebaseUrl)
       .pipe(map((responseData) => {
         const postArray: Post[] = [];
@@ -51,8 +55,12 @@ export class AppComponent implements OnInit {
         return postArray;
       }))
       .subscribe(posts => {
-        console.log(posts);
-        this.loadedPosts = posts;
-      });
+          this.loadedPosts = posts;
+          this.isFetching = false;
+        },
+        error => {
+          console.log(error);
+          this.isFetching = false;
+        });
   }
 }
