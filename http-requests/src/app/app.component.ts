@@ -11,7 +11,7 @@ import {Post} from "./post.model";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
   firebaseUrl: string;
 
   constructor(private http: HttpClient) {
