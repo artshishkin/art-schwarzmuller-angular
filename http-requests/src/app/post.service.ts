@@ -19,11 +19,14 @@ export class PostService {
   }
 
   fetchPosts(): Observable<Post[]> {
+    let httpParams = new HttpParams();
+    httpParams = httpParams.append('print', 'pretty');
+    httpParams = httpParams.append('foo', 'bar');
     return this.http.get<Map<string, Post>>(
       this.firebaseUrl,
       {
         headers: new HttpHeaders({'Custom-Header': 'BlaBlaHeaderValue'}),
-        params: new HttpParams().set('print','pretty')
+        params: httpParams
       })
       .pipe(
         map((responseData) => {
