@@ -9,7 +9,13 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log("Request is on it's way");
-    return next.handle(request);
+    console.log(`Request to url ${request.url}`);
+    const modifiedRequest = request.clone(
+      {
+        headers: request.headers
+          .append('FakeAuthorization', 'Some-Fake-Value')
+      }
+    );
+    return next.handle(modifiedRequest);
   }
 }
