@@ -12,8 +12,9 @@ export class AuthInterceptor implements HttpInterceptor {
     console.log(`Request to url ${request.url}`);
     const modifiedRequest = request.clone(
       {
-        headers: request.headers
-          .append('FakeAuthorization', 'Some-Fake-Value')
+        setHeaders: {
+          FakeAuthorization: 'Some-Fake-Value'
+        }
       }
     );
     return next.handle(modifiedRequest);
