@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../environments/environment";
-import {Observable, Subject} from "rxjs";
+import {Observable, Subject, throwError} from "rxjs";
 import {Post} from "./post.model";
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +20,22 @@ export class PostService {
 
   fetchPosts(): Observable<Post[]> {
     return this.http.get<Map<string, Post>>(this.firebaseUrl)
-      .pipe(map((responseData) => {
-        const postArray: Post[] = [];
-        for (const key in responseData) {
-          if (responseData.hasOwnProperty(key))
-            postArray.push({...responseData[key], id: key});
-        }
-        return postArray;
-      }));
+      .pipe(
+        map((responseData) => {
+          const postArray: Post[] = [];
+          for (const key in responseData) {
+            if (responseData.hasOwnProperty(key))
+              postArray.push({...responseData[key], id: key});
+          }
+          return postArray;
+        }),
+        catchError(errorResponse => {
+          // ...Send to Analytics Server
+          // ...Push to error subject
+          // ...then rethrow (may be custom exception/error)
+          return throwError(errorResponse);
+        })
+      );
   }
 
   errorHandlingUsingSubjectTests(): void {
