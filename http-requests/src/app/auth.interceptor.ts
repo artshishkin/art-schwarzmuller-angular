@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpEventType, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map, tap} from "rxjs/operators";
+import {map} from "rxjs/operators";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
     );
     return next.handle(modifiedRequest)
       .pipe(
-        tap(responseEvent => console.log(responseEvent)), // tap - just for monitoring
+        // tap(responseEvent => console.log(responseEvent)), // tap - just for monitoring
         map(responseEvent => {                     // map - for modifying
           if (responseEvent.type === HttpEventType.Response) {
             // responseEvent.headers.set('FakeResponseHeader', 'FakeResponseValue');
@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
           }
           return responseEvent;
         }),
-        tap(response => console.log(response))
+        // tap(response => console.log(response))
       );
   }
 }
