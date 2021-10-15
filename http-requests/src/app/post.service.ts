@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {Observable, Subject, throwError} from "rxjs";
 import {Post} from "./post.model";
@@ -19,7 +19,11 @@ export class PostService {
   }
 
   fetchPosts(): Observable<Post[]> {
-    return this.http.get<Map<string, Post>>(this.firebaseUrl)
+    return this.http.get<Map<string, Post>>(
+      this.firebaseUrl,
+      {
+        headers: new HttpHeaders({'Custom-Header': 'BlaBlaHeaderValue'})
+      })
       .pipe(
         map((responseData) => {
           const postArray: Post[] = [];
