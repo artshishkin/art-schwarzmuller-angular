@@ -71,8 +71,10 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(
         (event) => {
           this.loadedPosts = [];
-          if (event.type === HttpEventType.Response)
+          if (event.type === HttpEventType.Response) {
+            console.log(event.headers.get('FakeResponseHeader'));
             alert('All posts were cleared');
+          }
         },
         error => {
           this.error = error.message;
