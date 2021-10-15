@@ -70,10 +70,11 @@ export class PostService {
     return this.http.delete(
       this.firebaseUrl,
       {
-        observe: "events"
+        observe: "events",
+        responseType: "text" //"json"(default),"blob","text","arraybuffer"
       })
       .pipe(tap(event => {
-        // console.log(event);
+        console.log(event);
         if (event.type === HttpEventType.Sent) {
           console.log('Request Sent');
         }
