@@ -15,4 +15,7 @@ export class HeaderComponent {
     this.dataStorageService.storeRecipes();
   }
 
+  onLoadData() {
+    this.dataStorageService.fetchRecipes();
+  }
 }

@@ -20,4 +20,9 @@ export class DataStorageService {
     this.http.put(this.recipesUrl, recipes)
       .subscribe(resp => console.log(resp));
   }
+
+  fetchRecipes() {
+    this.http.get<Recipe[]>(this.recipesUrl)
+      .subscribe(recipes => this.recipeService.setRecipes(recipes));
+  }
 }
