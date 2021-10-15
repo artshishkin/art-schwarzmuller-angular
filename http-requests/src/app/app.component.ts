@@ -42,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(
         result => {
           console.log(result);
+          console.log(result.body);
           this.postForm.reset();
           this.fetchPosts();
         },

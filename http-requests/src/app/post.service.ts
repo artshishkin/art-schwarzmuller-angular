@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {Observable, Subject, throwError} from "rxjs";
 import {Post} from "./post.model";
@@ -55,13 +55,13 @@ export class PostService {
         });
   }
 
-  createAndStorePost(title: string, content: string): Observable<{ name: any }> {
+  createAndStorePost(title: string, content: string): Observable<HttpResponse<any>> {
     const postData: Post = {title: title, content: content};
     return this.http.post<{ name: string }>(
       this.firebaseUrl,
       postData,
       {
-        observe: "body"
+        observe: "response"
       }
     );
   }
