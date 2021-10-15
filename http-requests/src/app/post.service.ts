@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {Observable, Subject, throwError} from "rxjs";
 import {Post} from "./post.model";
-import {catchError, map} from "rxjs/operators";
+import {catchError, map, tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -67,7 +67,20 @@ export class PostService {
   }
 
   deleteAllPosts(): Observable<any> {
-    return this.http.delete(this.firebaseUrl);
+    return this.http.delete(
+      this.firebaseUrl,
+      {
+        observe: "events"
+      })
+      .pipe(tap(event => {
+        // console.log(event);
+        if (event.type === HttpEventType.Sent) {
+          console.log('Request Sent');
+        }
+        if (event.type === HttpEventType.Response) {
+          console.log(event.body);
+        }
+      }));
   }
 
 }

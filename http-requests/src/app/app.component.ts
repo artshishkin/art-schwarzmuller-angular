@@ -4,6 +4,7 @@ import {Post} from "./post.model";
 import {PostService} from "./post.service";
 import {Subscription} from "rxjs";
 import {NgForm} from "@angular/forms";
+import {HttpEventType} from "@angular/common/http";
 
 @Component({
   selector: 'app-root',
@@ -68,9 +69,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.error = null;
     const subscription = this.postService.deleteAllPosts()
       .subscribe(
-        () => {
+        (event) => {
           this.loadedPosts = [];
-          alert('All posts were cleared');
+          if (event.type === HttpEventType.Response)
+            alert('All posts were cleared');
         },
         error => {
           this.error = error.message;
