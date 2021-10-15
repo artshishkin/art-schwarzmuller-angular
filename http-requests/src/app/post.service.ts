@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {Observable, Subject, throwError} from "rxjs";
 import {Post} from "./post.model";
@@ -22,7 +22,8 @@ export class PostService {
     return this.http.get<Map<string, Post>>(
       this.firebaseUrl,
       {
-        headers: new HttpHeaders({'Custom-Header': 'BlaBlaHeaderValue'})
+        headers: new HttpHeaders({'Custom-Header': 'BlaBlaHeaderValue'}),
+        params: new HttpParams().set('print','pretty')
       })
       .pipe(
         map((responseData) => {
