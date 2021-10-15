@@ -41,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .createAndStorePost(postData.title, postData.content)
       .subscribe(
         result => {
+          console.log(result);
           this.postForm.reset();
           this.fetchPosts();
         },

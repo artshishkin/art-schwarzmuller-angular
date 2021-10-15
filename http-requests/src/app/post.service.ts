@@ -55,9 +55,15 @@ export class PostService {
         });
   }
 
-  createAndStorePost(title: string, content: string): Observable<{ name: string }> {
+  createAndStorePost(title: string, content: string): Observable<{ name: any }> {
     const postData: Post = {title: title, content: content};
-    return this.http.post<{ name: string }>(this.firebaseUrl, postData);
+    return this.http.post<{ name: string }>(
+      this.firebaseUrl,
+      postData,
+      {
+        observe: "body"
+      }
+    );
   }
 
   deleteAllPosts(): Observable<any> {
