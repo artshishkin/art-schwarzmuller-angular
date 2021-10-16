@@ -68,3 +68,25 @@ Angular - The Complete Guide (2021 Edition) - Tutorial from Maximilian SchwarzmÃ
   }
 }
 ```
+
+####  Section 20: Authentication & Route Protection in Angular
+
+#####  290. Preparing the Backend
+
+-  Change database rules
+```json
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null"
+  }
+}
+```
+-  Tune Firebase Authentication
+    -  Authentication -> Get Started
+    -  Sign-in method: 
+        -  Email/Password -> Enable
+        -  Save
+
+
+
