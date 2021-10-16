@@ -9,12 +9,18 @@ import {catchError} from "rxjs/operators";
 })
 export class AuthService {
 
-  private signUpUrl: string = environment.signUpUrl;
-
   constructor(private http: HttpClient) {
   }
 
   signUp(email: string, password: string): Observable<AuthResponseData> {
+    return this.auth(environment.signUpUrl, email, password);
+  }
+
+  login(email: string, password: string): Observable<AuthResponseData> {
+    return this.auth(environment.loginUrl, email, password);
+  }
+
+  private auth(url: string, email: string, password: string): Observable<AuthResponseData> {
 
     const requestBody = {
       email: email,
@@ -22,7 +28,7 @@ export class AuthService {
       returnSecureToken: true
     };
 
-    return this.http.post<AuthResponseData>(this.signUpUrl, requestBody)
+    return this.http.post<AuthResponseData>(url, requestBody)
       .pipe(catchError(errorResp => {
         let errorMessage = 'An unknown error occurred';
         switch (errorResp.error?.error?.message) {
@@ -34,6 +40,15 @@ export class AuthService {
             break;
           case 'TOO_MANY_ATTEMPTS_TRY_LATER':
             errorMessage = 'We have blocked all requests from this device due to unusual activity. Try again later.';
+            break;
+          case 'EMAIL_NOT_FOUND':
+            errorMessage = 'There is no user record corresponding to this identifier. The user may have been deleted.';
+            break;
+          case 'INVALID_PASSWORD':
+            errorMessage = 'The password is invalid or the user does not have a password.';
+            break;
+          case 'USER_DISABLED':
+            errorMessage = 'The user account has been disabled by an administrator.';
             break;
         }
         return throwError(errorMessage);
@@ -48,4 +63,5 @@ export interface AuthResponseData {
   refreshToken: string;
   expiresIn: string;
   localId: string;
+  registered?: boolean;
 }
