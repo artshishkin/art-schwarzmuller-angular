@@ -11,6 +11,10 @@ export class AuthComponent implements OnInit {
 
   isLoginMode = true;
 
+  isLoading = false;
+
+  error: string = null;
+
   onToggleMode() {
     this.isLoginMode = !this.isLoginMode;
   }
@@ -23,13 +27,23 @@ export class AuthComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (form.invalid) return;
+
+    this.isLoading = true;
+
     if (this.isLoginMode) {
 
     } else {
       this.authService.signUp(form.value.email, form.value.password)
         .subscribe(
-          data => console.log(data),
-          error => console.log(error)
+          data => {
+            console.log(data);
+            this.isLoading = false;
+          },
+          error => {
+            this.isLoading = false;
+            console.log(error);
+            this.error = 'An error occurred!';
+          }
         );
     }
     form.reset();
