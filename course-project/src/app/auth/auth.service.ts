@@ -34,13 +34,14 @@ export class AuthService {
     return this.http.post<AuthResponseData>(url, requestBody)
       .pipe(
         catchError(this.handleError),
-        tap(this.storeLoggedInUserData)
+        tap(this.storeLoggedInUserData.bind(this))
       );
   }
 
   private storeLoggedInUserData(authResponse: AuthResponseData) {
     const expirationDate: Date = new Date(new Date().getTime() + 1000 * (+authResponse.expiresIn));
     const loggedInUser = new User(authResponse.email, authResponse.localId, authResponse.idToken, expirationDate);
+    console.log(loggedInUser);
     this.user.next(loggedInUser);
   }
 
