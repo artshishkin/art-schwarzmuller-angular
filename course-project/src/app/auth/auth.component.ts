@@ -1,9 +1,10 @@
-import {Component, ComponentFactoryResolver, OnInit} from '@angular/core';
+import {Component, ComponentFactoryResolver, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AuthResponseData, AuthService} from "./auth.service";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {AlertComponent} from "../shared/alert/alert.component";
+import {PlaceholderDirective} from "../shared/placeholder.directive";
 
 @Component({
   selector: 'app-auth',
@@ -11,6 +12,8 @@ import {AlertComponent} from "../shared/alert/alert.component";
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
+
+  @ViewChild(PlaceholderDirective) alertHost: PlaceholderDirective;
 
   isLoginMode = true;
 
@@ -62,5 +65,8 @@ export class AuthComponent implements OnInit {
 
   private showErrorAlert(message: string) {
     const alertCmpFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+    const hostViewContainerRef = this.alertHost.viewContainerRef;
+    hostViewContainerRef.clear();
+    hostViewContainerRef.createComponent(alertCmpFactory);
   }
 }
