@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment";
 import {BehaviorSubject, Observable, throwError} from "rxjs";
 import {catchError, tap} from "rxjs/operators";
 import {User} from "./user.model";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class AuthService {
 
   user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
   }
 
   signUp(email: string, password: string): Observable<AuthResponseData> {
@@ -21,6 +23,11 @@ export class AuthService {
 
   login(email: string, password: string): Observable<AuthResponseData> {
     return this.auth(environment.loginUrl, email, password);
+  }
+
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/auth']);
   }
 
   private auth(url: string, email: string, password: string): Observable<AuthResponseData> {
