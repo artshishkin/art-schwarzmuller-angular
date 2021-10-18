@@ -52,7 +52,10 @@ import {PlaceholderDirective} from './shared/placeholder.directive';
   ],
   providers: [ShoppingListService, RecipeService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[
+    AlertComponent
+  ]
 })
 export class AppModule {
 }
