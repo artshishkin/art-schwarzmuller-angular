@@ -88,5 +88,23 @@ Angular - The Complete Guide (2021 Edition) - Tutorial from Maximilian SchwarzmÃ
         -  Email/Password -> Enable
         -  Save
 
+####  Section 23: Deploying an Angular App
 
+#####  341. Deployment Example: Firebase Hosting
 
+1.  Install Firebase CLI
+    -  `npm install -g firebase-tools`
+2.  Login to Google
+    - `firebase login`
+3.  Initiate project
+    -  `firebase init`
+    -  choose `Hosting`
+    -  project in Firebase -> `ng-course-recipe-book-e8a67 (ng-course-recipe-book)` 
+    -  public directory: `dist/course-project`
+    -  configure as a single-page app -> yes
+    -  overwrite index.html -> no      
+4.  Deploy to Firebase Hosting
+    -  `firebase deploy`
+    -  After deploying, view your app at `ng-course-recipe-book-e8a67.web.app`
+    -  [Project Console](https://console.firebase.google.com/project/ng-course-recipe-book-e8a67/overview)
+    -  [Hosting URL](https://ng-course-recipe-book-e8a67.web.app)
