@@ -108,3 +108,11 @@ Angular - The Complete Guide (2021 Edition) - Tutorial from Maximilian Schwarzm√
     -  After deploying, view your app at `ng-course-recipe-book-e8a67.web.app`
     -  [Project Console](https://console.firebase.google.com/project/ng-course-recipe-book-e8a67/overview)
     -  [Hosting URL](https://ng-course-recipe-book-e8a67.web.app)
+
+####  Section 24: Bonus: Working with NgRx in our Project
+
+#####  346. Getting Started with Reducers
+
+1.  Install NgRx
+    -  `npm install --save @ngrx/store`
+
