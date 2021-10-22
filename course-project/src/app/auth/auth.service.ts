@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {BehaviorSubject, Observable, throwError} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {catchError, tap} from "rxjs/operators";
 import {User} from "./user.model";
 import {Router} from "@angular/router";
@@ -14,8 +14,6 @@ import {Login} from "./store/auth.actions";
   providedIn: 'root'
 })
 export class AuthService {
-
-  user = new BehaviorSubject<User>(null);
 
   storage: Storage = localStorage;
 
