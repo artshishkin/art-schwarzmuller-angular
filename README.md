@@ -116,3 +116,9 @@ Angular - The Complete Guide (2021 Edition) - Tutorial from Maximilian Schwarzm√
 1.  Install NgRx
     -  `npm install --save @ngrx/store`
 
+#####  365. Exploring NgRx Effects
+
+Install side effects package
+-  `npm install --save @ngrx/effects`
+
+
