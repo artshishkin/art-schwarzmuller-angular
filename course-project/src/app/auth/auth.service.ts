@@ -5,6 +5,10 @@ import {BehaviorSubject, Observable, throwError} from "rxjs";
 import {catchError, tap} from "rxjs/operators";
 import {User} from "./user.model";
 import {Router} from "@angular/router";
+import {Store} from "@ngrx/store";
+import * as fromApp from "../store/app.reducer";
+import * as AuthActions from "./store/auth.actions";
+import {Login} from "./store/auth.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +22,8 @@ export class AuthService {
   private tokenExpirationTimer: number;
 
   constructor(private http: HttpClient,
-              private router: Router) {
+              private router: Router,
+              private store: Store<fromApp.AppState>) {
   }
 
   signUp(email: string, password: string): Observable<AuthResponseData> {
@@ -30,7 +35,8 @@ export class AuthService {
   }
 
   logout() {
-    this.user.next(null);
+    // this.user.next(null);
+    this.store.dispatch(new AuthActions.Logout());
     this.router.navigate(['/auth']);
     this.storage.removeItem('loggedInUser');
     if (this.tokenExpirationTimer)
@@ -56,7 +62,13 @@ export class AuthService {
       new User(data.email, data.id, data._token, expirationDate);
 
     if (loggedInUser.token) {
-      this.user.next(loggedInUser);
+      // this.user.next(loggedInUser);
+      this.store.dispatch(new AuthActions.Login({
+        email: loggedInUser.email,
+        id: loggedInUser.id,
+        token: loggedInUser.token,
+        expirationDate: expirationDate
+      }));
       this.autoLogout(expirationDate.getTime() - new Date().getTime());
     }
   }
@@ -91,7 +103,13 @@ export class AuthService {
     const expirationDate: Date = new Date(new Date().getTime() + 1000 * (+authResponse.expiresIn));
     const loggedInUser = new User(authResponse.email, authResponse.localId, authResponse.idToken, expirationDate);
     console.log(loggedInUser);
-    this.user.next(loggedInUser);
+    // this.user.next(loggedInUser);
+    this.store.dispatch(new Login({
+      email: authResponse.email,
+      id: authResponse.localId,
+      token: authResponse.idToken,
+      expirationDate: expirationDate
+    }));
     this.autoLogout(+authResponse.expiresIn * 1000);
     this.storage.setItem('loggedInUser', JSON.stringify(loggedInUser));
   }
