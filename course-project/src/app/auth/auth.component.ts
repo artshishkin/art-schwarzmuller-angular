@@ -1,10 +1,14 @@
 import {Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
-import {AuthResponseData, AuthService} from "./auth.service";
 import {Observable, Subscription} from "rxjs";
 import {Router} from "@angular/router";
+import {Store} from "@ngrx/store";
+
+import {AuthResponseData, AuthService} from "./auth.service";
 import {AlertComponent} from "../shared/alert/alert.component";
 import {PlaceholderDirective} from "../shared/placeholder.directive";
+import * as AuthActions from "./store/auth.actions";
+import * as fromApp from "../store/app.reducer";
 
 @Component({
   selector: 'app-auth',
@@ -29,7 +33,8 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   constructor(private  authService: AuthService,
               private router: Router,
-              private componentFactoryResolver: ComponentFactoryResolver) {
+              private componentFactoryResolver: ComponentFactoryResolver,
+              private store: Store<fromApp.AppState>) {
   }
 
   ngOnInit(): void {
@@ -44,24 +49,29 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
 
-    let authObs: Observable<AuthResponseData> = this.isLoginMode ?
-      this.authService.login(form.value.email, form.value.password) :
-      this.authService.signUp(form.value.email, form.value.password);
+    if (this.isLoginMode) {
 
-    authObs
-      .subscribe(
-        data => {
-          console.log(data);
-          this.isLoading = false;
-          this.router.navigate(["/recipes"]);
-        },
-        errorMessage => {
-          this.isLoading = false;
-          this.error = errorMessage;
-          this.showErrorAlert(errorMessage);
-        }
-      );
+      this.store.dispatch(new AuthActions.LoginStart({email: form.value.email, password: form.value.password}));
 
+    } else {
+
+      let authObs: Observable<AuthResponseData> =
+        this.authService.signUp(form.value.email, form.value.password);
+
+      authObs
+        .subscribe(
+          data => {
+            console.log(data);
+            this.isLoading = false;
+            this.router.navigate(["/recipes"]);
+          },
+          errorMessage => {
+            this.isLoading = false;
+            this.error = errorMessage;
+            this.showErrorAlert(errorMessage);
+          }
+        );
+    }
     form.reset();
   }
 
