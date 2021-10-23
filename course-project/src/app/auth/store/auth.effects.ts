@@ -1,12 +1,11 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, map, switchMap} from "rxjs/operators";
+import {Injectable} from "@angular/core";
+import {of} from "rxjs";
 
 import * as AuthActions from './auth.actions';
-import {Login} from './auth.actions';
 import {environment} from "../../../environments/environment";
-import {of} from "rxjs";
-import {Injectable} from "@angular/core";
 
 export interface AuthResponseData {
   idToken: string;
@@ -35,18 +34,19 @@ export class AuthEffects {
 
             const expirationDate: Date = new Date(new Date().getTime() + 1000 * (+authResponse.expiresIn));
 
-            const loginAction = new Login({
+            const loginAction = new AuthActions.LoginSuccess({
               email: authResponse.email,
               id: authResponse.localId,
               token: authResponse.idToken,
               expirationDate: expirationDate
             });
 
-            return of(loginAction);
+            return loginAction;
+            // return of(loginAction);
           }),
-          catchError(error => {
+          catchError((error: HttpErrorResponse) => {
             //...
-            return of(); //just for now
+            return of(new AuthActions.LoginFail(error.error?.error?.message)); //just for now
           })
         );
     })

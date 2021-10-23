@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import * as fromApp from "../store/app.reducer";
 import * as AuthActions from "./store/auth.actions";
-import {Login} from "./store/auth.actions";
+import {LoginSuccess} from "./store/auth.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +61,7 @@ export class AuthService {
 
     if (loggedInUser.token) {
       // this.user.next(loggedInUser);
-      this.store.dispatch(new AuthActions.Login({
+      this.store.dispatch(new AuthActions.LoginSuccess({
         email: loggedInUser.email,
         id: loggedInUser.id,
         token: loggedInUser.token,
@@ -102,7 +102,7 @@ export class AuthService {
     const loggedInUser = new User(authResponse.email, authResponse.localId, authResponse.idToken, expirationDate);
     console.log(loggedInUser);
     // this.user.next(loggedInUser);
-    this.store.dispatch(new Login({
+    this.store.dispatch(new LoginSuccess({
       email: authResponse.email,
       id: authResponse.localId,
       token: authResponse.idToken,
