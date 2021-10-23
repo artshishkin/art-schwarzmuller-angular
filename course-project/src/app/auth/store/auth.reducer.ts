@@ -18,7 +18,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
   // console.log(state);
 
   switch (action.type) {
-    case AuthActions.LOGIN_SUCCESS:
+    case AuthActions.AUTHENTICATE_SUCCESS:
       const user = new User(
         action.payload.email,
         action.payload.id,
@@ -43,7 +43,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
         authError: null,
         loading: true
       };
-    case AuthActions.LOGIN_FAIL:
+    case AuthActions.AUTHENTICATE_FAIL:
       return {
         ...state,
         user: null,

@@ -21,6 +21,11 @@ export interface AuthResponseData {
 export class AuthEffects {
 
   @Effect()
+  authSighUp = this.actions$.pipe(
+    ofType(AuthActions.SIGNUP_START),
+  );
+
+  @Effect()
   authLogin = this.actions$.pipe(
     ofType(AuthActions.LOGIN_START),
     switchMap((authData: AuthActions.LoginStart) => {
@@ -35,7 +40,7 @@ export class AuthEffects {
 
             const expirationDate: Date = new Date(new Date().getTime() + 1000 * (+authResponse.expiresIn));
 
-            const loginAction = new AuthActions.LoginSuccess({
+            const loginAction = new AuthActions.AuthenticateSuccess({
               email: authResponse.email,
               id: authResponse.localId,
               token: authResponse.idToken,
@@ -47,7 +52,7 @@ export class AuthEffects {
           }),
           catchError((error: HttpErrorResponse) => {
             const message = this.handleError(error);
-            return of(new AuthActions.LoginFail(message));
+            return of(new AuthActions.AuthenticateFail(message));
           })
         );
     })
@@ -55,7 +60,7 @@ export class AuthEffects {
 
   @Effect({dispatch: false})
   authSuccess = this.actions$.pipe(
-    ofType(AuthActions.LOGIN_SUCCESS),
+    ofType(AuthActions.AUTHENTICATE_SUCCESS),
     tap(() => this.router.navigate(['/']))
   );
 
