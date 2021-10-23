@@ -2,7 +2,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, map, switchMap, tap} from "rxjs/operators";
 import {Injectable} from "@angular/core";
-import {of} from "rxjs";
+import {Observable, of} from "rxjs";
 
 import * as AuthActions from './auth.actions';
 import {environment} from "../../../environments/environment";
@@ -23,6 +23,18 @@ export class AuthEffects {
   @Effect()
   authSighUp = this.actions$.pipe(
     ofType(AuthActions.SIGNUP_START),
+    switchMap((signUpAction: AuthActions.SignUpStart) => {
+      const requestBody = {
+        email: signUpAction.payload.email,
+        password: signUpAction.payload.password,
+        returnSecureToken: true
+      };
+      return this.http.post<AuthResponseData>(environment.signUpUrl, requestBody)
+        .pipe(
+          map(this.handleAuthenticationSuccess.bind(this)),
+          catchError(this.handleError.bind(this))
+        );
+    })
   );
 
   @Effect()
@@ -36,24 +48,8 @@ export class AuthEffects {
       };
       return this.http.post<AuthResponseData>(environment.loginUrl, requestBody)
         .pipe(
-          map((authResponse: AuthResponseData) => {
-
-            const expirationDate: Date = new Date(new Date().getTime() + 1000 * (+authResponse.expiresIn));
-
-            const loginAction = new AuthActions.AuthenticateSuccess({
-              email: authResponse.email,
-              id: authResponse.localId,
-              token: authResponse.idToken,
-              expirationDate: expirationDate
-            });
-
-            return loginAction;
-            // return of(loginAction);
-          }),
-          catchError((error: HttpErrorResponse) => {
-            const message = this.handleError(error);
-            return of(new AuthActions.AuthenticateFail(message));
-          })
+          map(this.handleAuthenticationSuccess.bind(this)),
+          catchError(this.handleError.bind(this))
         );
     })
   );
@@ -69,7 +65,7 @@ export class AuthEffects {
               private router: Router) {
   }
 
-  private handleError(errorResponse: HttpErrorResponse): string {
+  private handleError(errorResponse: HttpErrorResponse): Observable<AuthActions.AuthenticateFail> {
     let errorMessage = 'An unknown error occurred';
     switch (errorResponse.error?.error?.message) {
       case 'EMAIL_EXISTS':
@@ -91,7 +87,19 @@ export class AuthEffects {
         errorMessage = 'The user account has been disabled by an administrator.';
         break;
     }
-    return errorMessage;
+    return of(new AuthActions.AuthenticateFail(errorMessage));
   }
+
+  private handleAuthenticationSuccess = (authResponse: AuthResponseData) => {
+
+    const expirationDate: Date = new Date(new Date().getTime() + 1000 * (+authResponse.expiresIn));
+
+    return new AuthActions.AuthenticateSuccess({
+      email: authResponse.email,
+      id: authResponse.localId,
+      token: authResponse.idToken,
+      expirationDate: expirationDate
+    });
+  };
 
 }
