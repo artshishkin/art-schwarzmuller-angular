@@ -7,6 +7,7 @@ import {Observable, of} from "rxjs";
 import * as AuthActions from './auth.actions';
 import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
+import {User} from "../user.model";
 
 export interface AuthResponseData {
   idToken: string;
@@ -55,6 +56,46 @@ export class AuthEffects {
   );
 
   @Effect({dispatch: false})
+  authLogout = this.actions$.pipe(
+    ofType(AuthActions.LOGOUT),
+    tap(() => this.clearLoggedInUserData())
+  );
+
+
+  @Effect()
+  authAutoLogin = this.actions$.pipe(
+    ofType(AuthActions.AUTO_LOGIN),
+    map(() => {
+      const userData = localStorage.getItem('loggedInUser');
+
+      if (!userData) return {type: 'DUMMY'};
+
+      const data: {
+        email: string,
+        id: string,
+        _token: string,
+        _tokenExpirationDate: string
+      } = JSON.parse(userData);
+
+      const expirationDate = new Date(data._tokenExpirationDate);
+      const loggedInUser: User =
+        new User(data.email, data.id, data._token, expirationDate);
+
+      if (loggedInUser.token) {
+        // this.user.next(loggedInUser);
+        return new AuthActions.AuthenticateSuccess({
+          email: loggedInUser.email,
+          id: loggedInUser.id,
+          token: loggedInUser.token,
+          expirationDate: expirationDate
+        });
+        // this.autoLogout(expirationDate.getTime() - new Date().getTime());
+      }
+      return {type: 'DUMMY'};
+    })
+  );
+
+  @Effect({dispatch: false})
   authRedirect = this.actions$.pipe(
     ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT),
     tap(() => this.router.navigate(['/']))
@@ -92,14 +133,27 @@ export class AuthEffects {
 
   private handleAuthenticationSuccess = (authResponse: AuthResponseData) => {
 
+    const email = authResponse.email;
+    const localId = authResponse.localId;
+    const idToken = authResponse.idToken;
     const expirationDate: Date = new Date(new Date().getTime() + 1000 * (+authResponse.expiresIn));
 
+    this.storeLoggedInUserData(email, localId, idToken, expirationDate);
+
     return new AuthActions.AuthenticateSuccess({
-      email: authResponse.email,
-      id: authResponse.localId,
-      token: authResponse.idToken,
+      email: email,
+      id: localId,
+      token: idToken,
       expirationDate: expirationDate
     });
   };
 
+  private storeLoggedInUserData(email: string, localId: string, idToken: string, expirationDate: Date) {
+    const loggedInUser = new User(email, localId, idToken, expirationDate);
+    localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+  }
+
+  private clearLoggedInUserData() {
+    localStorage.removeItem('loggedInUser');
+  }
 }
