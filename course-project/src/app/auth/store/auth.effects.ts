@@ -8,6 +8,7 @@ import * as AuthActions from './auth.actions';
 import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
 import {User} from "../user.model";
+import {AuthService} from "../auth.service";
 
 export interface AuthResponseData {
   idToken: string;
@@ -32,6 +33,7 @@ export class AuthEffects {
       };
       return this.http.post<AuthResponseData>(environment.signUpUrl, requestBody)
         .pipe(
+          tap(resData => this.authService.setLogoutTimer(+resData.expiresIn * 1000)),
           map(this.handleAuthenticationSuccess.bind(this)),
           catchError(this.handleError.bind(this))
         );
@@ -49,6 +51,7 @@ export class AuthEffects {
       };
       return this.http.post<AuthResponseData>(environment.loginUrl, requestBody)
         .pipe(
+          tap(resData => this.authService.setLogoutTimer(+resData.expiresIn * 1000)),
           map(this.handleAuthenticationSuccess.bind(this)),
           catchError(this.handleError.bind(this))
         );
@@ -58,6 +61,7 @@ export class AuthEffects {
   @Effect({dispatch: false})
   authLogout = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
+    tap(() => this.authService.clearLogoutTimer()),
     tap(() => this.clearLoggedInUserData())
   );
 
@@ -82,28 +86,34 @@ export class AuthEffects {
         new User(data.email, data.id, data._token, expirationDate);
 
       if (loggedInUser.token) {
-        // this.user.next(loggedInUser);
+        this.authService.setLogoutTimer(expirationDate.getTime() - new Date().getTime());
         return new AuthActions.AuthenticateSuccess({
           email: loggedInUser.email,
           id: loggedInUser.id,
           token: loggedInUser.token,
           expirationDate: expirationDate
         });
-        // this.autoLogout(expirationDate.getTime() - new Date().getTime());
       }
       return {type: 'DUMMY'};
     })
   );
 
   @Effect({dispatch: false})
-  authRedirect = this.actions$.pipe(
-    ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT),
+  authRedirectSuccess = this.actions$.pipe(
+    ofType(AuthActions.AUTHENTICATE_SUCCESS),
     tap(() => this.router.navigate(['/']))
+  );
+
+  @Effect({dispatch: false})
+  authRedirectLogout = this.actions$.pipe(
+    ofType(AuthActions.LOGOUT),
+    tap(() => this.router.navigate(['/auth']))
   );
 
   constructor(private actions$: Actions,
               private http: HttpClient,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService) {
   }
 
   private handleError(errorResponse: HttpErrorResponse): Observable<AuthActions.AuthenticateFail> {
