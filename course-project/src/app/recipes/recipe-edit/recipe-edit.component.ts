@@ -37,7 +37,7 @@ export class RecipeEditComponent implements OnInit {
         }),
         tap(id => this.id = id),
         mergeMap(id =>
-          id ?
+          id !== null ?
             this.store.select('recipes').pipe(map(state => state.recipes[id])) :
             of(new Recipe('', '', '', []))
         )
