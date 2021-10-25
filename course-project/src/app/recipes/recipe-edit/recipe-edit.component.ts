@@ -3,6 +3,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Recipe} from "../recipe.model";
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RecipeService} from "../recipe.service";
+import {map, mergeMap, tap} from "rxjs/operators";
+import {Store} from "@ngrx/store";
+import * as fromApp from "../../store/app.reducer";
+import {of} from "rxjs";
 
 @Component({
   selector: 'app-recipe-edit',
@@ -20,20 +24,28 @@ export class RecipeEditComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private formBuilder: FormBuilder,
               private recipeService: RecipeService,
+              private store: Store<fromApp.AppState>,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(paramMap => {
-      this.editMode = paramMap.has('id');
-      this.id = this.editMode ? +paramMap.get('id') : null;
-      this.recipe = this.editMode ?
-        this.recipeService.getRecipe(this.id) :
-        new Recipe('', '', '', []);
-      this.initForm();
-    });
-
-    this.route.data.subscribe(data => this.recipe = data['recipe']);
+    this.route.paramMap
+      .pipe(
+        map(paramMap => {
+          this.editMode = paramMap.has('id');
+          return this.editMode ? +paramMap.get('id') : null;
+        }),
+        tap(id => this.id = id),
+        mergeMap(id =>
+          id ?
+            this.store.select('recipes').pipe(map(state => state.recipes[id])) :
+            of(new Recipe('', '', '', []))
+        )
+      )
+      .subscribe(recipe => {
+        this.recipe = recipe;
+        this.initForm();
+      });
   }
 
   private initForm() {
