@@ -127,3 +127,8 @@ Install side effects package
 -  install `Redux DevTools` extension
 -  install dependency
     -  `npm install --save-dev @ngrx/store-devtools` 
+
+#####  378. The Router Store
+
+-  `npm install --save @ngrx/router-store`
+
