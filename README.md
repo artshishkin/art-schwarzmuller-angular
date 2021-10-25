@@ -121,4 +121,9 @@ Angular - The Complete Guide (2021 Edition) - Tutorial from Maximilian Schwarzm√
 Install side effects package
 -  `npm install --save @ngrx/effects`
 
+#####  377. Using the Store Devtools
 
+-  google for `redux devtools extension`
+-  install `Redux DevTools` extension
+-  install dependency
+    -  `npm install --save-dev @ngrx/store-devtools` 
