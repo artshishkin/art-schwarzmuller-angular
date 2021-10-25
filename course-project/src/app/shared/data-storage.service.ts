@@ -38,6 +38,8 @@ export class DataStorageService {
 
   fetchRecipesObservable(): Observable<Recipe[]> {
 
+    console.log("Fetching Recipes from server");
+
     return this.http.get<Recipe[]>(this.recipesUrl).pipe(
       map(recipes => recipes
         .map(recipe => {
