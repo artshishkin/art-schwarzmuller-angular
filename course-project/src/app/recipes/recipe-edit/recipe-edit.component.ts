@@ -1,25 +1,29 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Recipe} from "../recipe.model";
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {RecipeService} from "../recipe.service";
-import {map, mergeMap, tap} from "rxjs/operators";
 import {Store} from "@ngrx/store";
+import {map, mergeMap, tap} from "rxjs/operators";
+import {of, Subscription} from "rxjs";
+
+import {Recipe} from "../recipe.model";
+import {RecipeService} from "../recipe.service";
 import * as fromApp from "../../store/app.reducer";
-import {of} from "rxjs";
+import * as RecipeActions from "../store/recipe.actions";
 
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
   styleUrls: ['./recipe-edit.component.css']
 })
-export class RecipeEditComponent implements OnInit {
+export class RecipeEditComponent implements OnInit, OnDestroy {
 
   editMode = false;
   id: number | null = null;
   recipe: Recipe;
 
   recipeForm: FormGroup;
+
+  subs: Subscription[] = [];
 
   constructor(private route: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -29,7 +33,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap
+    const subscription = this.route.paramMap
       .pipe(
         map(paramMap => {
           this.editMode = paramMap.has('id');
@@ -46,6 +50,11 @@ export class RecipeEditComponent implements OnInit {
         this.recipe = recipe;
         this.initForm();
       });
+    this.subs.push(subscription);
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
   }
 
   private initForm() {
@@ -78,9 +87,9 @@ export class RecipeEditComponent implements OnInit {
 
   onSubmit() {
     if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, this.recipeForm.value);
+      this.store.dispatch(new RecipeActions.UpdateRecipe({index: this.id, newRecipe: this.recipeForm.value}));
     } else {
-      this.recipeService.addRecipe(this.recipeForm.value);
+      this.store.dispatch(new RecipeActions.AddRecipe(this.recipeForm.value));
     }
     this.finishEditing();
   }

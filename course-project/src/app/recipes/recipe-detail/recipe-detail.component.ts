@@ -1,7 +1,11 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {Store} from "@ngrx/store";
+
 import {Recipe} from "../recipe.model";
 import {RecipeService} from "../recipe.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import * as RecipeActions from "../store/recipe.actions";
+import * as fromApp from "../../store/app.reducer";
 
 @Component({
   selector: 'app-recipe-detail',
@@ -14,6 +18,7 @@ export class RecipeDetailComponent implements OnInit, OnChanges {
 
   constructor(private recipeService: RecipeService,
               private route: ActivatedRoute,
+              private store: Store<fromApp.AppState>,
               private router: Router) {
   }
 
@@ -33,7 +38,7 @@ export class RecipeDetailComponent implements OnInit, OnChanges {
   onDelete() {
     if (confirm('Are you sure to delete Recipe?')) {
       const id = +this.route.snapshot.paramMap.get('id');
-      this.recipeService.deleteRecipe(id);
+      this.store.dispatch(new RecipeActions.DeleteRecipe(id));
       this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
