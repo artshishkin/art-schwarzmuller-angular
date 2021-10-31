@@ -6,7 +6,6 @@ import {map, mergeMap, tap} from "rxjs/operators";
 import {of, Subscription} from "rxjs";
 
 import {Recipe} from "../recipe.model";
-import {RecipeService} from "../recipe.service";
 import * as fromApp from "../../store/app.reducer";
 import * as RecipeActions from "../store/recipe.actions";
 
@@ -27,7 +26,6 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private formBuilder: FormBuilder,
-              private recipeService: RecipeService,
               private store: Store<fromApp.AppState>,
               private router: Router) {
   }
