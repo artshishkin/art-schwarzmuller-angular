@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import * as fromApp from "../store/app.reducer";
 import * as AuthActions from "./store/auth.actions";
@@ -12,9 +10,7 @@ export class AuthService {
 
   private tokenExpirationTimer: number;
 
-  constructor(private http: HttpClient,
-              private router: Router,
-              private store: Store<fromApp.AppState>) {
+  constructor(private store: Store<fromApp.AppState>) {
   }
 
   setLogoutTimer(expirationDuration: number) {
