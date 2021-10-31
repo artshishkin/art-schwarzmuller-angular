@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {map, switchMap, tap} from "rxjs/operators";
+import {map, switchMap, tap, withLatestFrom} from "rxjs/operators";
 import {Actions, Effect, ofType} from "@ngrx/effects";
 import {Store} from "@ngrx/store";
 
@@ -30,9 +30,8 @@ export class RecipeEffects {
   @Effect({dispatch: false})
   storeRecipes = this.actions$.pipe(
     ofType(RecipeActions.STORE_RECIPES),
-    switchMap(() => this.store.select('recipes')),
-    map(state => state.recipes),
-    switchMap(recipes => this.http.put<Recipe[]>(this.recipesUrl, recipes)),
+    withLatestFrom(this.store.select('recipes')),
+    switchMap(([actionData, recipeState]) => this.http.put<Recipe[]>(this.recipesUrl, recipeState.recipes)),
     tap(result => console.log(result))
   );
 
