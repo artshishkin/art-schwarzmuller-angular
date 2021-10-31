@@ -9,6 +9,7 @@ import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
 import {User} from "../user.model";
 import {AuthService} from "../auth.service";
+import * as RecipeActions from '../../recipes/store/recipe.actions';
 
 export interface AuthResponseData {
   idToken: string;
@@ -58,11 +59,12 @@ export class AuthEffects {
     })
   );
 
-  @Effect({dispatch: false})
+  @Effect()
   authLogout = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
     tap(() => this.authService.clearLogoutTimer()),
-    tap(() => this.clearLoggedInUserData())
+    tap(() => this.clearLoggedInUserData()),
+    map(() => new RecipeActions.ResetRecipes())
   );
 
 
