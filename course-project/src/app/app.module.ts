@@ -16,6 +16,7 @@ import {AuthEffects} from "./auth/store/auth.effects";
 import {environment} from "../environments/environment";
 import {StoreRouterConnectingModule} from "@ngrx/router-store";
 import {RecipeEffects} from "./recipes/store/recipe.effects";
+import {LoggingService} from "./logging.service";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import {RecipeEffects} from "./recipes/store/recipe.effects";
     HeaderComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot(fromApp.appReducer),
@@ -34,7 +35,7 @@ import {RecipeEffects} from "./recipes/store/recipe.effects";
     CoreModule,
   ],
   bootstrap: [AppComponent],
-  // providers: [LoggingService],
+  providers: [LoggingService],
   entryComponents: [
     AlertComponent
   ]

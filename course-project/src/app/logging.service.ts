@@ -13,7 +13,7 @@ export class LoggingService {
   printLog(message: string) {
 
     // console.log(`---------${this.loggerId}------------------`);
-    // console.log(message);
+    console.log(message);
     // console.log(this.lastLog);
     // console.log('----------------------------------');
     this.lastLog = message;

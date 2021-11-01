@@ -132,3 +132,22 @@ Install side effects package
 
 -  `npm install --save @ngrx/router-store`
 
+####  Section 25: Bonus: Angular Universal
+
+#####  391. Adding Angular Universal
+
+1.  Install Angular Universal
+    - ~~ng add @nguniversal/express-engine --clientProject course-project~~ (deprecated)
+    - `ng add @nguniversal/express-engine`
+2.  Check that code runs in a browser
+    -  `isPlatformBrowser(this.platformId)`
+3.  Max's run commands
+    -  `npm run build:ssr`
+    -  `npm run serve:ssr`
+    -  visit `localhost:4000`   
+4.  Jost's run command
+    -  `npm run dev:ssr` 
+
+
+
+    
