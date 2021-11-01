@@ -25,4 +25,14 @@ export class AppComponent {
   onAdd(item) {
     this.list.push(item);
   }
+
+
+  onDelete(item: string) {
+    this.list.splice(this.list.indexOf(item), 1);
+  }
+
+  onAnimate() {
+    // this.state = (this.state === 'normal') ? 'highlighted' : 'normal';
+    this.state === 'normal' ? this.state = 'highlighted' : this.state = 'normal';
+  }
 }
