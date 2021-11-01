@@ -40,6 +40,21 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
         ]
       ),
     ]),
+
+    trigger('list1', [
+      state('in', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('void => *', [
+        style({opacity: 0, transform: 'translateX(-100px)'}),
+        animate(500)
+      ]),
+      transition('* => void',
+        animate(500, style({opacity: 0, transform: 'translateX(100px)'}))
+      ),
+    ]),
+
   ]
 })
 export class AppComponent {
