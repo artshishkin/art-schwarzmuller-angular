@@ -156,6 +156,21 @@ Install side effects package
     -  `npm install --save @angular/animations`
 2.  Add the BrowserAnimationsModule  to your imports[]  array in AppModule    
     
+####  Section 27: Adding Offline Capabilities with Service Workers
 
+#####  416. Adding Service Workers
 
+1.  Add library for service worker
+    -  `ng add @angular/pwa`
+2.  Build project
+    -  `ng build --prod`
+3.  Install web server
+    -  `npm install -g http-server` (Max)
+    -  **or**
+    -  `npm i -g http-server-spa` (Jost)
+4.  Start server
+    -  `cd dist/angular-pwa`
+    -  `http-server -p 8081`
+    -  **or**
+    -  `http-server-spa .`
     
