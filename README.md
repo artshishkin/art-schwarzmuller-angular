@@ -148,6 +148,14 @@ Install side effects package
 4.  Jost's run command
     -  `npm run dev:ssr` 
 
+####  Section 26: Angular Animations
+
+#####  403. Making Animations Work with Angular 4+
+
+1.  Install the new animations package: 
+    -  `npm install --save @angular/animations`
+2.  Add the BrowserAnimationsModule  to your imports[]  array in AppModule    
+    
 
 
     
