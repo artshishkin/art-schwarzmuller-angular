@@ -173,4 +173,17 @@ Install side effects package
     -  `http-server -p 8081`
     -  **or**
     -  `http-server-spa .`
+
+####  Section 29: Angular as a Platform, Closer Look at the CLI
+
+#####  433. A Closer Look at "ng new"    
+
+1.  Install latest ng cli
+    -  `npm install -g @angular/cli@latest`
+2.  Ng New Help
+    -  `ng new --help`
+3.  New Project
+    -  `ng new angular-config`
+        -  No Routing
+        -  CSS     
     
