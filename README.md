@@ -186,4 +186,25 @@ Install side effects package
     -  `ng new angular-config`
         -  No Routing
         -  CSS     
-    
+
+#####  436. Important CLI Commands
+
+-  `ng help`
+-  `ng serve --help`
+    -  --port 4321
+    -  to access to local IP like http://192.168.1.154:4200
+        -  `ng serve --host 0.0.0.0 --disable-host-check` 
+        -  `ng serve --host 192.168.1.154 --disable-host-check`
+-  `ng generate --help`          
+    -  `ng generate component --help`
+    -  `ng generate class shared/user --type model` -> will generate user.model.ts with class User
+-  `ng lint` -> code quality check
+    -  uses `tslint.json` file
+    -  `Cannot find "lint" target for the specified project.`
+    -  `You should add a package that implements linting capabilities.`
+    -  `ng add @angular-eslint/schematics` ->
+        -  `An unhandled exception occurred: NOT SUPPORTED: keyword "id", use "$id" for schema ID`    
+-  `ng build`
+
+
+          
