@@ -224,4 +224,15 @@ Install side effects package
     - `The package that you are trying to add does not support schematics. You can try using a different version of the package or contact the package author to add ng-add support.`
 -  skipping
 
-          
+#####  444. Managing Multiple Projects in One Folder
+
+1.  Create new project inside another project (ugly structure) 
+    -  `ng generate application backend` 
+    -  `ng serve --project=backend`
+2.  Brand new project creation (cleaner structure)
+    -  `ng new angular-shop --create-application=false`
+    -  `ng generate application backend`    
+    
+    
+    
+            
