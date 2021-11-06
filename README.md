@@ -206,5 +206,10 @@ Install side effects package
         -  `An unhandled exception occurred: NOT SUPPORTED: keyword "id", use "$id" for schema ID`    
 -  `ng build`
 
+#####  439. The "ng add" Command
 
+-  `ng add @angular/material`
+    -  theme: Deep Purple/Amber
+    -  animations -> yes
+    
           
