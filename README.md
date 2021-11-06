@@ -212,4 +212,7 @@ Install side effects package
     -  theme: Deep Purple/Amber
     -  animations -> yes
     
+#####  440. Using Custom "ng generate" Schematics
+
+-  `ng generate @angular/material:nav main-nav`
           
