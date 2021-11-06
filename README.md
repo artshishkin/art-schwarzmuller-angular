@@ -233,6 +233,8 @@ Install side effects package
     -  `ng new angular-shop --create-application=false`
     -  `ng generate application backend`    
     
-    
+#####  445. Angular Libraries - An Introduction
+
+-  `ng generate library my-button`    
     
             
