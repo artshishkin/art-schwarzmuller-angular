@@ -215,4 +215,13 @@ Install side effects package
 #####  440. Using Custom "ng generate" Schematics
 
 -  `ng generate @angular/material:nav main-nav`
+
+#####  442. Simplified Deployment with "ng deploy"
+
+-  `ng add @angular/fire`
+-  `npm install -g firebase-tools` - in case of errors
+-  not working for me. have an error
+    - `The package that you are trying to add does not support schematics. You can try using a different version of the package or contact the package author to add ng-add support.`
+-  skipping
+
           
