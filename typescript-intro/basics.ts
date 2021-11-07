@@ -110,3 +110,57 @@ class StudentSimple {
     }
 }
 
+
+interface Human {
+    firstName: string;
+    lastName: string;
+
+    greet: () => void;
+
+    giveaways(): number;
+}
+
+class Ukrainian implements Human {
+
+    constructor(public firstName: string, public lastName: string) {
+    }
+
+    giveaways(): number {
+        return Math.random();
+    }
+
+    greet(): void {
+        console.log(`Dobryden vid ${this.firstName} ${this.lastName}`);
+    }
+}
+
+const petro = new Ukrainian('Petro', 'Poroshenko');
+
+const sebastian: Human = {
+
+    firstName: 'Sebastian',
+    lastName: 'Trun',
+
+    greet: () => console.log(`Hello everyone from ${this.firstName} ${this.lastName}`),
+    giveaways(): number {
+        return 123.45;
+    }
+};
+
+const emmanuel: Human = {
+
+    firstName: 'Emmanuel',
+    lastName: 'Pretty',
+
+    greet(): void {
+        console.log(`Hello everyone from ${this.firstName} ${this.lastName}`)
+    },
+    giveaways(): number {
+        return 123.45;
+    }
+};
+
+petro.greet();
+sebastian.greet();
+emmanuel.greet();
+
