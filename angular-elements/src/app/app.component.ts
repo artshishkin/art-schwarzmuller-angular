@@ -7,4 +7,16 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-elements';
+
+  content: any = null;
+
+  constructor() {
+    this.loadDataFromServer();
+  }
+
+  private loadDataFromServer() {
+    setTimeout(() => {
+      this.content = '<p>Data Fetched from server(simulation):<p><h3>I\'m OK</h3>';
+    }, 1000);
+  }
 }
