@@ -39,9 +39,9 @@ let people: {
 
 // Type inference
 
-let course = 'Java Core';
+let course: string | number = 'Java Core';
 
-// course = 1234;
+course = 1234;
 
 
 
