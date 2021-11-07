@@ -16,7 +16,7 @@ export class AppComponent {
 
   private loadDataFromServer() {
     setTimeout(() => {
-      this.content = '<p>Data Fetched from server(simulation):<p><h3>I\'m OK</h3>';
+      this.content = '<app-alert message="Rendered dynamically"></app-alert>';
     }, 1000);
   }
 }
