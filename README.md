@@ -237,4 +237,10 @@ Install side effects package
 
 -  `ng generate library my-button`    
     
+####  Section 30: Angular Changes and New Features
+
+#####  447. A First Look At Angular Elements
+
+-  `npm install --save @angular/elements`
+
             

@@ -1,4 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, Injector} from '@angular/core';
+import {createCustomElement} from "@angular/elements";
+import {AlertComponent} from "./alert/alert.component";
 
 @Component({
   selector: 'app-root',
@@ -10,13 +12,15 @@ export class AppComponent {
 
   content: any = null;
 
-  constructor() {
+  constructor(private injector: Injector) {
+    const AlertElement = createCustomElement<AlertComponent>(AlertComponent, {injector: this.injector});
+    customElements.define('my-alert', AlertElement);
     this.loadDataFromServer();
   }
 
   private loadDataFromServer() {
     setTimeout(() => {
-      this.content = '<app-alert message="Rendered dynamically"></app-alert>';
+      this.content = '<my-alert message="Rendered dynamically"></my-alert>';
     }, 1000);
   }
 }
