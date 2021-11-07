@@ -67,3 +67,46 @@ console.log(b);
 
 const c = insertAtBeginning(['a', 'b'], 'c'); //inference
 console.log(c);
+
+class Student {
+
+    firstName: string;
+    lastName: string;
+    age: number;
+    private courses: string[];
+
+    constructor(first: string, last: string, age: number, courses: string[]) {
+        this.firstName = first;
+        this.lastName = last;
+        this.age = age;
+        this.courses = courses;
+    }
+
+    enrol(courseName: string): void {
+        this.courses.push(courseName);
+    }
+
+    listCourses() {
+        return this.courses.slice();
+    }
+}
+
+const student = new Student('Art', 'Shyshkin', 38, ['Java', 'Angular', 'RSocket']);
+
+student.enrol('Redis');
+
+
+class StudentSimple {
+
+    constructor(public firstName: string, public lastName: string, public age: number, private courses: string[]) {
+    }
+
+    enrol(courseName: string): void {
+        this.courses.push(courseName);
+    }
+
+    listCourses() {
+        return this.courses.slice();
+    }
+}
+
