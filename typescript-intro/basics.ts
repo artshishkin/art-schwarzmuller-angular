@@ -42,5 +42,12 @@ let course: string | number = 'Java Core';
 
 course = 1234;
 
+// Functions & types
 
+function add(a: number, b: number) { // function type is inferred from return (number + number)
+    return a + b;
+}
 
+function printMe(value: any) {
+    console.log(value);
+}
