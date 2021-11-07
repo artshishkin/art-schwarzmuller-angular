@@ -37,7 +37,11 @@ let people: {
     age: number;
 }[];
 
+// Type inference
 
+let course = 'Java Core';
+
+// course = 1234;
 
 
 
