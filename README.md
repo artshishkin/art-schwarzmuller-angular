@@ -254,6 +254,8 @@ in folder `typescript-intro` run
 -  `npx tsc with-typescript.ts`
 -  `tsc with-typescript.ts`
 
+#####  462. Configuring the TypeScript Compiler
 
+-  `npx tsc --init`
 
             
