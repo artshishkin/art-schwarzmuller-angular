@@ -243,4 +243,17 @@ Install side effects package
 
 -  `npm install --save @angular/elements`
 
+####  Section 32: Bonus: TypeScript Introduction (for Angular 2 Usage)
+
+#####  452. Installing & Using TypeScript
+
+in folder `typescript-intro` run
+-  `npm init -y` - to generate package.json (need to install dependencies)
+-  `npm install typescript`
+-  `npx tsc` -> error (no tsconfig.json)
+-  `npx tsc with-typescript.ts`
+-  `tsc with-typescript.ts`
+
+
+
             
