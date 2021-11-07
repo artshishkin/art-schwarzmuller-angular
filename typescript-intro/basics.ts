@@ -51,3 +51,19 @@ function add(a: number, b: number) { // function type is inferred from return (n
 function printMe(value: any) {
     console.log(value);
 }
+
+// Generics
+
+function insertAtBeginning<T>(array: T[], value: T) {
+    return [value,
+        ...array];
+}
+
+const a = insertAtBeginning<number>([1, 2], 3);
+console.log(a);
+
+const b = insertAtBeginning<string>(['a', 'b'], 'c');
+console.log(b);
+
+const c = insertAtBeginning(['a', 'b'], 'c'); //inference
+console.log(c);
